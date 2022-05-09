@@ -1,0 +1,85 @@
+
+          -- Question 19 ---
+
+a. Les 10 pays ayant le plus haut ratio disponibilité alimentaire/habitant en termes de protéines (en kg) par habitant, 
+      puis en termes de kcal par habitant. (/1000 car on veut des Kg et 'dispo_prot' est exprimé en grammes)
+
+select pays, annee, SUM(dispo_prot)/1000 as dispo_prot_kg 
+from dispo_alim 
+GROUP BY pays 
+ORDER BY dispo_prot_kg DESC LIMIT 10;
+
+
+
+b. Pour chaque année disponible (2013, 2016), les 10 pays ayant le plus faible ratio disponibilité alimentaire/habitant en termes de protéines (en kg) par habitant. 
+      Le nombre de lignes de la table renvoyée sera donc égal à 10 fois le nombre d'années disponibles.
+      
+(select pays, annee, SUM(dispo_prot) as proteine 
+from dispo_alim 
+where annee=2012 
+GROUP BY pays 
+ORDER BY proteine ASC LIMIT 10) 
+UNION 
+(select pays, annee, SUM(dispo_prot) as proteine 
+from dispo_alim 
+where annee=2013 
+GROUP BY pays 
+ORDER BY proteine ASC LIMIT 10); 
+
+
+c. La quantité totale (en Millliers de tonnes, et kg) de produits perdus par pays et par année. La table renvoyée contiendra donc une ligne par couple (pays, année).
+
+select pays, annee, SUM(pertes) as pertes 
+from equilibre_prod 
+GROUP BY pays, annee;
+
+select annee, SUM(pertes) as pertes_Total 
+
+from equilibre_prod 
+GROUP BY annee;
+
+
+d. Les 10 pays pour lesquels la proportion de personnes sous-alimentées est la plus forte, par année
+
+SELECT sous_nutrition.pays, sous_nutrition.nb_personnes*1000/population.population AS proportion 
+
+FROM sous_nutrition 
+
+INNER JOIN population
+ 
+ON population.code_pays = sous_nutrition.code_pays 
+
+WHERE sous_nutrition.annee = 2012 AND population.annee 
+= 2012 
+ORDER BY proportion DESC LIMIT 10;
+
+SELECT sous_nutrition.pays, sous_nutrition.nb_personnes*1000/population.population AS proportion 
+
+FROM sous_nutrition 
+
+INNER JOIN population
+ 
+ON population.code_pays = sous_nutrition.code_pays 
+
+WHERE sous_nutrition.annee = 2013 AND population.annee 
+= 2013 
+ORDER BY proportion DESC LIMIT 10;
+
+population > 2012, 2013
+sous_nutrition > 2012,2013,2014,2015,2016				
+
+sous_nutrition.nb_personnes est exprimé en Millions => *1000000
+population.population       est exprimé en Milliers => *1000
+
+
+
+e. Les 10 produits pour lesquels le ratio Autres utilisations/Disponibilité intérieure est le plus élevé.
+
+
+SELECT produit, autres_utilisations/dispo_int AS ratio 
+
+FROM equilibre_prod 
+
+WHERE annee = 2013 
+
+ORDER BY ratio DESC LIMIT 10;

@@ -1,0 +1,49 @@
+DROP table population;
+CREATE TABLE population (
+code_pays SMALLINT(3) UNSIGNED NOT NULL,
+pays VARCHAR(50) NOT NULL,
+annee SMALLINT(4) NOT NULL,
+population INT UNSIGNED NOT NULL,
+PRIMARY KEY (code_pays, annee)
+);
+
+DROP table dispo_alim ;
+CREATE TABLE dispo_alim (
+code_pays SMALLINT(3) UNSIGNED NOT NULL,
+pays VARCHAR(50) NOT NULL,
+annee SMALLINT(4) NOT NULL,
+produit VARCHAR(50) NOT NULL,
+code_produit SMALLINT(3) NOT NULL,
+origin VARCHAR(8) NOT NULL,
+dispo_alim_tonnes INT NOT NULL,
+dispo_alim_kcal_p_j INT NOT NULL,
+dispo_prot INT NOT NULL,
+dispo_mat_gr INT NOT NULL,
+PRIMARY KEY (code_pays, annee, code_produit)
+);
+
+DROP TABLE equilibre_prod;
+CREATE TABLE equilibre_prod (
+code_pays SMALLINT(3) UNSIGNED NOT NULL,
+pays VARCHAR(50) NOT NULL,
+annee SMALLINT(4) NOT NULL,
+produit VARCHAR(50) NOT NULL,
+code_produit SMALLINT(3) NOT NULL,
+dispo_int INT NOT NULL, 
+alim_ani  INT NOT NULL, 
+semences INT NOT NULL, 
+pertes INT NOT NULL, 
+transfo INT NOT NULL, 
+nourriture INT NOT NULL, 
+autres_utilisations  INT NOT NULL,
+PRIMARY KEY (code_pays, annee, code_produit)
+);
+
+DROP TABLE sous_nutrition;
+CREATE TABLE sous_nutrition (
+code_pays SMALLINT(3) UNSIGNED NOT NULL,
+pays VARCHAR(50) NOT NULL,
+annee SMALLINT(4) NOT NULL,			
+nb_personnes INT UNSIGNED NOT NULL,
+PRIMARY KEY (code_pays, annee)
+);
